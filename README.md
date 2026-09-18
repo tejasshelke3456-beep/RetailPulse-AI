@@ -209,15 +209,6 @@ All features derived exclusively from data on or before 2025-09-01:
 
 ---
 
-## Screenshots
-
-> _Screenshots to be added after deployment_
-
-- `docs/screenshots/overview.png` — Executive KPI dashboard
-- `docs/screenshots/sales.png` — Sales & products analytics
-- `docs/screenshots/customers.png` — Customer segmentation
-- `docs/screenshots/risk.png` — Risk & recommendations
-- `docs/screenshots/prediction.png` — AI churn prediction form
 
 ---
 
