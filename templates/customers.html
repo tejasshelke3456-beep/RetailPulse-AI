@@ -3,21 +3,21 @@
 
 {% block content %}
 <div class="mb-6">
-  <h1 class="text-2xl font-bold text-gray-800">Customer Analytics</h1>
-  <p class="text-sm text-gray-500 mt-1">RFM segmentation, customer lookup, and behavioral insights</p>
+  <h1 class="page-title">Customer Analytics</h1>
+  <p class="page-subtitle">RFM segmentation, customer lookup, and behavioral insights</p>
 </div>
 
 <!-- Segment Overview Cards -->
 <div id="segmentCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-  <div class="col-span-5 py-6 flex justify-center"><div class="spinner"></div></div>
+  <div class="col-span-5 py-8 flex justify-center"><div class="spinner"></div></div>
 </div>
 
 <!-- Charts Row -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
   <!-- Segment Distribution -->
-  <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-    <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
-      <i class="fas fa-pie-chart text-purple-500"></i> Segment Distribution
+  <div class="card p-5">
+    <h2 class="card-title">
+      <i class="fas fa-pie-chart text-violet-500"></i> Segment Distribution
     </h2>
     <div class="chart-wrapper" style="height:260px;">
       <canvas id="segmentPieChart"></canvas>
@@ -25,9 +25,9 @@
   </div>
 
   <!-- Avg Revenue by Segment -->
-  <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-    <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
-      <i class="fas fa-dollar-sign text-green-500"></i> Avg Revenue by Segment
+  <div class="card p-5">
+    <h2 class="card-title">
+      <i class="fas fa-dollar-sign text-emerald-500"></i> Avg Revenue by Segment
     </h2>
     <div class="chart-wrapper" style="height:260px;">
       <canvas id="segmentRevenueChart"></canvas>
@@ -36,43 +36,43 @@
 </div>
 
 <!-- Segment Detail Table -->
-<div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm mb-6">
-  <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
-    <i class="fas fa-table text-gray-500"></i> Segment Detail
+<div class="card p-5 mb-5">
+  <h2 class="card-title">
+    <i class="fas fa-table text-slate-500"></i> Segment Detail
   </h2>
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
       <thead>
-        <tr class="text-xs text-gray-500 uppercase border-b border-gray-100">
-          <th class="text-left py-2 px-3">Segment</th>
-          <th class="text-right py-2 px-3">Customers</th>
-          <th class="text-right py-2 px-3">%</th>
-          <th class="text-right py-2 px-3">Avg Revenue</th>
-          <th class="text-right py-2 px-3">Avg Recency (days)</th>
-          <th class="text-right py-2 px-3">Avg Frequency</th>
-          <th class="text-right py-2 px-3">Avg Monetary</th>
+        <tr>
+          <th class="text-left">Segment</th>
+          <th class="text-right">Customers</th>
+          <th class="text-right">%</th>
+          <th class="text-right">Avg Revenue</th>
+          <th class="text-right">Avg Recency (days)</th>
+          <th class="text-right">Avg Frequency</th>
+          <th class="text-right">Avg Monetary</th>
         </tr>
       </thead>
       <tbody id="segmentTableBody">
-        <tr><td colspan="7" class="py-6 text-center"><div class="spinner mx-auto"></div></td></tr>
+        <tr><td colspan="7" class="py-8 text-center"><div class="spinner mx-auto"></div></td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
 <!-- Customer Search -->
-<div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-  <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+<div class="card p-5">
+  <h2 class="card-title">
     <i class="fas fa-search text-blue-500"></i> Customer Lookup
   </h2>
   <div class="flex gap-3 mb-4">
     <input type="text" id="customerInput"
            placeholder="e.g. CUST-0001"
-           class="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+           class="flex-1 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-slate-800 placeholder-slate-400"
            maxlength="20" />
     <button onclick="lookupCustomer()"
             class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
-      <i class="fas fa-search mr-1"></i> Search
+      <i class="fas fa-search mr-1.5"></i> Search
     </button>
   </div>
 
@@ -80,7 +80,7 @@
   <div id="customerResult" class="hidden">
     <div id="customerError" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 text-sm mb-3"></div>
     <div id="customerData" class="hidden">
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         <!-- Filled by JS -->
       </div>
     </div>
