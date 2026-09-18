@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Secrets
+.env
+
+# Generated files
+data/ecommerce.db
+ml/churn_model.pkl
+data/customers.csv
+data/products.csv
+data/orders.csv
+
+# IDE
+.vscode/
+.idea/
+*.DS_Store

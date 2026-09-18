@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Sales & Products – RetailPulse AI{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">Sales &amp; Products</h1>
+  <p class="text-sm text-gray-500 mt-1">Category performance, product rankings, and revenue analysis</p>
+</div>
+
+<!-- Category Performance Cards (loaded dynamically) -->
+<div id="categoryCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+  <div class="col-span-5 py-6 flex justify-center"><div class="spinner"></div></div>
+</div>
+
+<!-- Charts Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+  <!-- Revenue by Category (bar) -->
+  <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+    <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+      <i class="fas fa-chart-bar text-blue-500"></i> Revenue by Category
+    </h2>
+    <div class="chart-wrapper" style="height:260px;">
+      <canvas id="catRevenueChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Profit Margin by Category -->
+  <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+    <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+      <i class="fas fa-percentage text-green-500"></i> Profit Margin by Category
+    </h2>
+    <div class="chart-wrapper" style="height:260px;">
+      <canvas id="catMarginChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Revenue Trend -->
+<div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm mb-6">
+  <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+    <i class="fas fa-chart-line text-purple-500"></i> Monthly Sales Trend
+  </h2>
+  <div class="chart-wrapper" style="height:260px;">
+    <canvas id="salesTrendChart"></canvas>
+  </div>
+</div>
+
+<!-- Category Detail Table -->
+<div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm mb-6">
+  <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+    <i class="fas fa-table text-gray-500"></i> Category Performance Detail
+  </h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-xs text-gray-500 uppercase border-b border-gray-100">
+          <th class="text-left py-2 px-3">Category</th>
+          <th class="text-right py-2 px-3">Orders</th>
+          <th class="text-right py-2 px-3">Units Sold</th>
+          <th class="text-right py-2 px-3">Revenue</th>
+          <th class="text-right py-2 px-3">Profit</th>
+          <th class="text-right py-2 px-3">Margin %</th>
+        </tr>
+      </thead>
+      <tbody id="catTableBody">
+        <tr><td colspan="6" class="py-6 text-center"><div class="spinner mx-auto"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Top Products Table -->
+<div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+  <h2 class="font-semibold text-gray-700 flex items-center gap-2 mb-4">
+    <i class="fas fa-trophy text-yellow-500"></i> Top 10 Products by Revenue
+  </h2>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-xs text-gray-500 uppercase border-b border-gray-100">
+          <th class="text-left py-2 px-3">#</th>
+          <th class="text-left py-2 px-3">Product</th>
+          <th class="text-left py-2 px-3">Category</th>
+          <th class="text-right py-2 px-3">Revenue</th>
+          <th class="text-right py-2 px-3">Profit</th>
+          <th class="text-right py-2 px-3">Units</th>
+          <th class="text-right py-2 px-3">Orders</th>
+        </tr>
+      </thead>
+      <tbody id="topProdsBody">
+        <tr><td colspan="7" class="py-6 text-center"><div class="spinner mx-auto"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sales.js"></script>
+{% endblock %}

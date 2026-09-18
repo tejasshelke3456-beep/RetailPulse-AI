@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}RetailPulse AI{% endblock %}</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT:'#3b82d4', dark:'#2563eb', light:'#93c5fd' },
+            accent:'#7c5cd8',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:#f1f5f9; }
+    ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+    /* Sidebar active */
+    .nav-link.active { background:#1e40af; color:#fff !important; }
+    .nav-link { transition: background .15s, color .15s; }
+    .nav-link:hover:not(.active) { background:#1d4ed8; color:#fff !important; }
+    /* KPI card hover */
+    .kpi-card:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.1); }
+    .kpi-card { transition: transform .2s, box-shadow .2s; }
+    /* Spinner */
+    .spinner { border:3px solid #e5e7eb; border-top-color:#3b82d4; border-radius:50%;
+               width:28px; height:28px; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    /* Table hover */
+    tbody tr:hover { background:#f8fafc; }
+    /* Sidebar mobile */
+    #sidebar { transition: transform .25s ease; }
+    @media (max-width:767px) {
+      #sidebar { transform:translateX(-100%); position:fixed; z-index:50; height:100%; }
+      #sidebar.open { transform:translateX(0); }
+    }
+    /* Chart container */
+    .chart-wrapper { position:relative; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 h-full flex flex-col">
+
+  <!-- Top Navbar -->
+  <header class="bg-blue-900 text-white shadow-lg z-40 sticky top-0">
+    <div class="flex items-center justify-between h-14 px-4">
+      <div class="flex items-center gap-3">
+        <!-- Hamburger (mobile) -->
+        <button id="menuToggle" class="md:hidden text-white focus:outline-none"
+                onclick="document.getElementById('sidebar').classList.toggle('open')">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <i class="fas fa-chart-line text-blue-300 text-lg"></i>
+          <span class="font-bold text-lg tracking-tight">RetailPulse <span class="text-blue-300">AI</span></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="hidden sm:flex items-center gap-1 text-blue-200">
+          <i class="fas fa-database text-xs"></i> E-Commerce Analytics
+        </span>
+        <div id="healthBadge" class="flex items-center gap-1 px-2 py-1 rounded-full bg-blue-800 text-xs">
+          <span class="w-2 h-2 rounded-full bg-gray-400" id="healthDot"></span>
+          <span id="healthText">Checking…</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-56 bg-blue-800 text-white flex-shrink-0 flex flex-col overflow-y-auto shadow-lg">
+      <nav class="flex-1 py-4 px-2 space-y-1">
+        <p class="text-blue-400 text-xs font-semibold uppercase tracking-widest px-3 pb-1 pt-2">Dashboard</p>
+        <a href="/" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-blue-100 text-sm {% if request.path == '/' %}active{% endif %}">
+          <i class="fas fa-home w-4 text-center"></i> Overview
+        </a>
+
+        <p class="text-blue-400 text-xs font-semibold uppercase tracking-widest px-3 pb-1 pt-3">Analytics</p>
+        <a href="/sales" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-blue-100 text-sm {% if request.path == '/sales' %}active{% endif %}">
+          <i class="fas fa-chart-bar w-4 text-center"></i> Sales & Products
+        </a>
+        <a href="/customers" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-blue-100 text-sm {% if request.path == '/customers' %}active{% endif %}">
+          <i class="fas fa-users w-4 text-center"></i> Customers
+        </a>
+
+        <p class="text-blue-400 text-xs font-semibold uppercase tracking-widest px-3 pb-1 pt-3">Intelligence</p>
+        <a href="/risk" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-blue-100 text-sm {% if request.path == '/risk' %}active{% endif %}">
+          <i class="fas fa-shield-halved w-4 text-center"></i> Risk & Opportunities
+        </a>
+        <a href="/prediction" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-blue-100 text-sm {% if request.path == '/prediction' %}active{% endif %}">
+          <i class="fas fa-brain w-4 text-center"></i> AI Churn Prediction
+        </a>
+      </nav>
+      <div class="px-4 py-3 border-t border-blue-700 text-xs text-blue-400">
+        <div class="font-semibold text-blue-300">RetailPulse AI v1.0</div>
+        <div>Dataset: Jan 2024 – Nov 2025</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto">
+      <!-- Page overlay for mobile sidebar -->
+      <div id="sidebarOverlay"
+           class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"
+           onclick="document.getElementById('sidebar').classList.remove('open'); this.classList.add('hidden')">
+      </div>
+
+      <div class="p-4 sm:p-6 max-w-screen-2xl mx-auto">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Health check on load
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(d => {
+        const dot  = document.getElementById('healthDot');
+        const text = document.getElementById('healthText');
+        if (d.status === 'ok') {
+          dot.className = 'w-2 h-2 rounded-full bg-green-400';
+          text.textContent = 'System OK';
+        } else {
+          dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+          text.textContent = 'Degraded';
+        }
+      })
+      .catch(() => {
+        document.getElementById('healthDot').className = 'w-2 h-2 rounded-full bg-red-400';
+        document.getElementById('healthText').textContent = 'Offline';
+      });
+
+    // Mobile sidebar overlay
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebarOverlay').classList.remove('hidden');
+    });
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
